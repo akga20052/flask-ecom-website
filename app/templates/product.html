@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+   <h1 style="text-align:center; margin:4.5rem 0 2rem 0; font-weight:500; font-size: 120px; text-shadow:0 0 0.1em rgb(255, 255, 255)">Tuba's Sweet Shop</h1>
+   <div class="d-flex justify-content-center flex-wrap">
+    {% for product in cookies %}
+        <div class="card" style="width: 18rem; margin:1rem; border: 1px solid black">
+            <a class="text-dark text-decoration-none" href="{{ url_for('product_detail', product_id=product.id) }}">
+                <img style="width:80%; margin: 0 auto; padding-left: 3rem" src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ product.caption }}</li>
+                    <li class="list-group-item"><strong>Price:</strong> ${{ product.price }}</li>
+                </ul>
+            </a>
+            <div class="card-body">
+                <button type="button" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <!-- Add to Cart Modal -->
+    <div class="modal fade" id="addToCartModal" tabindex="-1" role="dialog" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToCartModalLabel">Item Added to Cart</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Product added to your shopping cart.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary">Go to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addToCart(productId) {
+            // Perform AJAX request to add the product to the cart
+            // Show the modal after a successful addition
+            $('#addToCartModal').modal('show');
+        }
+    </script>
+{% endblock %}
